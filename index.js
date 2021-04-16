@@ -49,34 +49,40 @@ mongoose
     Recipe.insertMany(data)
       .then((data) => {
         data.forEach((data) => {
-          console.log(`Recipe name is: ${data.title}`);
+          console.log(`Recipe name is: ${data.title}`)});
+
+        //Iteration 4
+        Recipe.findOneAndUpdate(
+          { title: "Carrot Cake" },
+          { $set: { duration: 100 } },
+          { new: true })
+          .then((recipe) => {
+            console.log("Success!")
+
+            //Iteration 5
+            Recipe.deleteOne({ title: "Rigatoni alla Genovese" })
+            .then((recipe) => console.log("Success"))
+            .catch((error) => console.error(error));
+
+            //Iteration 6
+            mongoose.connection
+            .close()
+            .then(() => {
+              console.log(`Disonnected from the database`);
+            })
+            .catch((error) => {
+              console.error("Error disconnecting from the database");
+            });
+          })
+        .catch((error) => {
+          console.error(error);
         });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    //Iteration 4
-    Recipe.findOneAndUpdate(
-      { title: "Carrot Cake" },
-      { $set: { duration: 100 } },
-      { new: true }
-    )
-      .then((recipe) => console.log("Success!"))
-      .catch((error) => console.error(error));
-    //Iteration 5
-    Recipe.deleteOne({ title: "Rigatoni alla Genovese" })
-      .then((recipe) => console.log("Success"))
-      .catch((error) => console.error(error));
-    //Iteration 6
-    mongoose.connection
-      .close()
-      .then(() => {
-        console.log(`Disonnected from the database`);
-      })
-      .catch((error) => {
-        console.error("Error disconnecting from the database");
-      });
-  })
-  .catch((error) => {
-    console.error("Error connecting to the database", error);
+       } 
+    .catch((error) => {
+    console.error("Error connecting to the database", error);})
   });
+
+
+
+
+
